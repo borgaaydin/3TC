@@ -1,0 +1,14 @@
+- Rechercher les fichiers contenus dans le répertoire /usr/bin dont le nom contient au moins 4 caractères dont le dernier est r.
+
+  ls /usr/bin |grep '...r$'
+
+- Rechercher les fichiers dans le répertoire /usr/bin dont le nom a une longueur de 4 caractères et se termine par un r.
+
+  ls /usr/bin |grep '^...r$'
+
+- Rechercher les fichiers dans le répertoire /usr/bin dont le nom comprend 4 caractères, commence par a, b ou c et se termine par r. 
+  ls /usr/bin |grep '^[ab]..r$' 
+
+- Rechercher les fichiers dans le répertoire /usr/bin dont les permissions pour le groupe sont 'r-x'.
+
+  ls -l /usr/bin |grep '^-......r-x'
