@@ -1,0 +1,11 @@
+#!/usr/bin/sh
+
+file=$1
+dir=$2
+testfile=$(ls -a "$2/" |grep "^$1$")
+
+if [[ -n $testfile ]]; then
+  echo "Le fichier $1 existe dans le répertoire $2 ."
+else
+  echo "Le fichier $1 n'existe pas dans le répertoire $2 ."
+fi

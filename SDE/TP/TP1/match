@@ -1,0 +1,10 @@
+#!/usr/bin/sh
+
+matches=$(cut -d: -f1 /etc/passwd |grep "^$1$")
+
+if [[ -n $matches ]]; then
+  echo "$1 est présent dans la liste."
+else 
+  echo "$1 n'est pas présent dans la liste."
+fi
+

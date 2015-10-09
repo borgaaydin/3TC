@@ -1,0 +1,32 @@
+#!/usr/bin/sh
+
+file=$1
+
+if [ -f file ]; then
+  echo "Ce fichier est un fichier normal."
+elif [ -d file ]; then
+  echo "Ce fichier est un répertoire."
+elif [ -p file ]; then
+  echo "Ce fichier est un pipe."
+elif [ -b file ]; then
+  echo "Ce fichier est un fichier périphérique bloc."
+elif [ -c file ]; then
+  echo "Ce fichier est un fichier périphérique caractère."
+fi
+
+if [ -r file ]; then
+  echo "Il est accessible lecture."
+fi
+if [ -w file ]; then
+  echo "Il est accessible en écriture."
+fi
+if [ -x file ]; then
+  echo "Il est éxécutable."
+fi
+
+if [ -s file ]; then
+  echo "Il est de taille non nulle."
+else 
+  echo "Il est de taille nulle."
+fi
+
