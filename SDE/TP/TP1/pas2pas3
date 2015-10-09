@@ -1,0 +1,9 @@
+#!/usr/bin/sh
+
+trap 'echo signal 2' 2
+trap 'echo signal 3' 3
+
+while :
+do
+ test
+done
