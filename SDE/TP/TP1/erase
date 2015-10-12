@@ -1,0 +1,15 @@
+#/usr/bin/sh
+
+if test -f $1;
+then
+	echo "Sure ? (0 or 1)"
+	read a
+	if a=1;
+	then
+		rm $1;
+	else
+		echo "Not deleted."
+	fi
+else
+	echo "Not suitable file !"
+fi 
