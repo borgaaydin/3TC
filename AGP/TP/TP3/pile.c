@@ -67,7 +67,7 @@ int Depiler(PILE *p){
 void afficherPile (PILE pile){
 	ELEMPILE *visitor;
 
-	visitor=pile->suivant;
+	visitor=pile;
 	if(visitor==NULL) fprintf(stdout, "|NULL|");
 	while(visitor!=0){
 		fprintf(stdout, "|%d|", visitor->elem);
