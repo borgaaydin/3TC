@@ -4,8 +4,8 @@
 #include "utilSudoku.h"
 	
 int main(int argc,char *argv[]) {
-	remove("solved.txt");
-	FILE *solved = fopen("solved.txt", "a+");
+	remove("solution");
+	FILE *solved = fopen("solution", "a+");
 	FILE *fich;
 	char *nomFich;
 	int sudoku[9][9];

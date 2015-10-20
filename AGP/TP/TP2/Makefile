@@ -1,7 +1,7 @@
 CFLAGS = -g -Wall -DDEBUG
 LDLAGS = -g -Wall -DDEBUG
 
-all: lireSudoku #resoudreSudoku 
+all: sudoku #resoudreSudoku 
 
 utilSudoku.o: utilSudoku.c utilSudoku.h
 	gcc ${CFLAGS} -c utilSudoku.c  -o utilSudoku.o
@@ -9,8 +9,8 @@ utilSudoku.o: utilSudoku.c utilSudoku.h
 main.o:	main.c
 	gcc ${CFLAGS} -c main.c -o main.o
 
-lireSudoku: main.o utilSudoku.o
-	gcc ${LDFLAGS} main.o utilSudoku.o -o lireSudoku
+sudoku: main.o utilSudoku.o
+	gcc ${LDFLAGS} main.o utilSudoku.o -o sudoku
 
 resoudreSudoku: sudoku.o utilSudoku.o
 	gcc ${LDFLAGS} sudoku.o   utilSudoku.o -o resoudreSudoku
