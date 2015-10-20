@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "pile.h"
 #include "pile_type.h"
+
 int error1(char *message){
 	fprintf(stderr, "Error : %s\n", message);
 	exit(-1);
@@ -11,10 +12,7 @@ int error1(char *message){
 * \brief  initialise une pile
 **************************************************/    
 PILE InitPile(){
-	PILE pile1;
-	pile1=(PILE)malloc(sizeof(PILE));
-	if(pile1==NULL) error1("InitPILE: Not Enough Memory !");
-	return pile1;
+	return NULL;
 }
 
 /************************************************
@@ -27,14 +25,17 @@ PILE InitPile(){
 * \result La fonction renvoie 0 si aucune erreur n'est intervenue  
 **************************************************/    
 int Empiler (PILE *p, int valeur){
+
 	ELEMPILE *newelem;
 
 	newelem=(ELEMPILE *)malloc(sizeof(ELEMPILE));
 	if(newelem==0) error1("Empiler: Not Enough Memory !");
+
 	newelem->elem=valeur;
-	newelem->suivant=p;
-	p=newelem;
+	newelem->suivant=(*p);
+	(*p)=newelem;
 	return(0);
+	
 }
 
 
@@ -51,7 +52,12 @@ int Empiler (PILE *p, int valeur){
 * \remark    Si la pile pointé par ppile est vide, la fonction affiche une erreur et interrompt le programme.
 **************************************************/    
 int Depiler(PILE *p){
-
+	if((*p)!=NULL){
+		int tmp = (*p)->elem;
+		(*p) = (*p)->suivant;
+		return tmp;
+	}
+	else error1("Depiler");
 }
 
 /************************************************
@@ -60,8 +66,9 @@ int Depiler(PILE *p){
 **************************************************/    
 void afficherPile (PILE pile){
 	ELEMPILE *visitor;
-	
+
 	visitor=pile->suivant;
+	if(visitor==NULL) fprintf(stdout, "|NULL|");
 	while(visitor!=0){
 		fprintf(stdout, "|%d|", visitor->elem);
 		visitor=visitor->suivant;
