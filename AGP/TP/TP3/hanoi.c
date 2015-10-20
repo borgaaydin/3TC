@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include "hanoi.h"
+#include "pile.h"
 
 int deplacer(PILE *source, PILE *dest) {
-	int piece=depiler(source);
-	empiler(dest);
+	int piece=Depiler(source);
+	Empiler(dest, piece);
 	return 0;
 }
 
@@ -15,5 +16,5 @@ int hanoi(PILE *source, PILE *dest, PILE *passage, int N){
 	} else {
 		deplacer(source, dest);
 	}
-	return O;
+	return 0;
 }
