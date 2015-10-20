@@ -8,11 +8,11 @@ int deplacer(PILE *source, PILE *dest) {
 	return 0;
 }
 
-int hanoi(PILE *source, PILE *dest, PILE *passage, int N){
+int hanoi(PILE *source,PILE *passage, PILE *dest,int N){
 	if (N>1) {
-		hanoi(source, passage, dest, N-1);
+		hanoi(source, dest, passage, N-1);
 		deplacer(source, dest);
-		hanoi(passage, dest, source, N-1);
+		hanoi(passage, source, dest, N-1);
 	} else {
 		deplacer(source, dest);
 	}

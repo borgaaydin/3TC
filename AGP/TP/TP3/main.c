@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "pile.h"
+#include "hanoi.h"
 
 #define N 9
  
