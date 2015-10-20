@@ -13,7 +13,7 @@ main.o:	main.c
 	gcc ${CFLAGS} -c main.c -o main.o
 
 hanoi: main.o hanoi.o pile.o
-	gcc ${LDFLAGS} main.o hanoi.o pile.o -o sudoku
+	gcc ${LDFLAGS} main.o hanoi.o pile.o -o hanoi
 
 clean: 
 	rm *.o hanoi
