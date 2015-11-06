@@ -40,7 +40,6 @@
   afficherPile(pile3);
 
  fprintf(stdout,"/********** test 2 *************\n");
- Empiler(&pile1,5);
  hanoi(&pile3,&pile2,&pile1,4);
  fprintf(stdout,"après execution de hanoi(4) \n");
  afficherPile(pile1);

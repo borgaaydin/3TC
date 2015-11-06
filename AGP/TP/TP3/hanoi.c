@@ -13,8 +13,6 @@ int hanoi(PILE *source,PILE *passage, PILE *dest,int N){
 		hanoi(source, dest, passage, N-1);
 		deplacer(source, dest);
 		hanoi(passage, source, dest, N-1);
-
-
 	} else {
 		deplacer(source, dest);
 	}
