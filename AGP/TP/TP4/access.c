@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "access.h"
 
-LIST newProgram(){
+NODE* newProgram(){
 	return NULL;
 }
 
