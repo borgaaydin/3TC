@@ -7,7 +7,7 @@
 NODE* newProgram();
 
 //create a new node with an instruction and a number of repetitions
-NODE* newNode(char inst, int nb);
+NODE* newNode(char inst[], int nb);
 
 //add a node (added) after another node (previous) in a given program (list)
 NODE* addNode(NODE *program, NODE *added, NODE *previous);
