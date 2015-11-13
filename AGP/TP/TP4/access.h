@@ -4,7 +4,7 @@
 #include "node.h"
 
 //initalise a program
-NODE* newProgram();
+NODE* newProgram(NODE *first);
 
 //create a new node with an instruction and a number of repetitions
 NODE* newNode(char inst[], int nb);
