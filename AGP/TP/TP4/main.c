@@ -12,9 +12,9 @@ int main(){
 	NODE *program=newProgram(forward);
 	printf("New program made\n");
 
-	addNode(program, program, right);
-	addNode(program, right, left);
-	addNode(program, left, repeat);
+	addNode(program, right, program);
+	addNode(program, left, right);
+	addNode(program, repeat, left);
 	printf("Nodes added\n");
 
 	printProgram(program);
