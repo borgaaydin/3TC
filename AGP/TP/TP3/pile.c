@@ -52,7 +52,10 @@ int Empiler (PILE *p, int valeur){
 * \remark    Si la pile pointé par ppile est vide, la fonction affiche une erreur et interrompt le programme.
 **************************************************/    
 int Depiler(PILE *p){
-	if((*p)!=NULL){
+	if((*p)==NULL){
+   return 0;  
+  }
+  if((*p)!=NULL){
 		int tmp = (*p)->elem;
 		(*p) = (*p)->suivant;
 		return tmp;
@@ -73,6 +76,6 @@ void afficherPile (PILE pile){
 		fprintf(stdout, "|%d|", visitor->elem);
 		visitor=visitor->suivant;
 	}
-	fprintf(stdout, "|--\n");
+	fprintf(stdout, "|--End of pile\n");
 
 }
