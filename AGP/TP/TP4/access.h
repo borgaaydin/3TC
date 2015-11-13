@@ -13,6 +13,6 @@ NODE* newNode(char inst, int nb);
 NODE* addNode(LIST list, NODE *added, NODE *previous);
 
 //display the program
-void printProgram(NODE* program);
+void printProgram(LIST program);
 
 #endif

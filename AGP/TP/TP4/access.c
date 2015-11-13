@@ -20,3 +20,5 @@ NODE* addNode (LIST list, NODE *added, NODE *previous){
 	added->next=temp;
 	return (list);
 }
+
+void printProgram(LIST program)
