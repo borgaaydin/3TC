@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "access.h"
 
-NODE* newProgram(){
+LIST newProgram(){
 	return NULL;
 }
 
@@ -14,11 +14,17 @@ NODE* newNode(char[] inst, int nb){
 	return newNode;
 }
 
-NODE* addNode (LIST list, NODE *added, NODE *previous){
+NODE* addNode (NODE *program, NODE *added, NODE *previous){
 	NODE *temp=previous->next;
 	previous->next=added;
 	added->next=temp;
 	return (list);
 }
 
-void printProgram(LIST program)
+void printProgram(NODE *program){
+	NODE *node=program;
+	int i=0;
+	while(node!=NULL){
+		printf("Node #%d: Instruction=%c; Number=%d", i++, node->instruction, node->number);
+	}
+}

@@ -10,9 +10,9 @@ NODE* newProgram();
 NODE* newNode(char inst, int nb);
 
 //add a node (added) after another node (previous) in a given program (list)
-NODE* addNode(LIST list, NODE *added, NODE *previous);
+NODE* addNode(NODE *program, NODE *added, NODE *previous);
 
 //display the program
-void printProgram(LIST program);
+void printProgram(NODE *program);
 
 #endif

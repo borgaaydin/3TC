@@ -9,6 +9,4 @@ struct model_node {
 
 typedef struct model_node NODE;
 
-typedef *NODE LIST;
-
 #endif NODE_H
