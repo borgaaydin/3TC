@@ -3,6 +3,7 @@
 
 struct model_node {
 	char instruction[128];
+	struct model_node *subroutine;
 	int number;
 	struct model_node *next;
 };
