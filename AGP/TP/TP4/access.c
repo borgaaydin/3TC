@@ -69,11 +69,11 @@ void generateSVG(NODE* node, FILE* drawing, DOT* origin){
 		}
 		if(strcmp(current->instruction,"RIGHT")==0){
 			printf("Right %d\n", current->number);
-			origin->angle-=(current->number)*PI/180;
+			origin->angle+=(current->number)*PI/180;
 		}
 		if(strcmp(current->instruction,"LEFT")==0){
 			printf("Left %d\n", current->number);
-			origin->angle+=(current->number)*PI/180;
+			origin->angle-=(current->number)*PI/180;
 		}
 		if(strcmp(current->instruction,"REPEAT")==0){
 			int i;
