@@ -1,16 +1,25 @@
 CFLAGS = -g -Wall -DDEBUG
 LDLAGS = -g -Wall -DDEBUG
 
-all: main 
+all: logo
 
-access.o: access.c access.h
-	gcc ${CFLAGS} -c access.c  -o access.o
+logo.tab.c: logo.y
+	bison -d logo.y
 
-main.o:	main.c
-	gcc ${CFLAGS} -c main.c -o main.o
+lex.yy.c: logo.l
+	flex logo.l
 
-main: main.o access.o
-	gcc ${LDFLAGS} main.o access.o -o main
+logo: logo.tab.c lex.yy.c access.c
+	gcc ${LDFLAGS} logo.tab.c lex.yy.c access.c -lm -o main
+
+simple: main.c access.c
+	gcc ${LDFLAGS} main.c access.c -o main
+
+test:
+	./main<test.logo
+
+val:
+	valgrind --leak-check=yes ./main<test.logo
 
 clean: 
-	\rm -rf *.o main
+	\rm -rf *.o main logo.tab.* lex.yy.c main.dSYM *.svg
