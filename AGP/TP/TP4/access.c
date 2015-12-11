@@ -19,7 +19,7 @@ NODE* newNode(char inst[], int nb, NODE *sub){
 	return node;
 }
 
-NODE* addNode (NODE *program, NODE *added){	
+NODE* addNode (NODE *program, NODE *added){
 	if (program->next!=NULL){
 		program->next=addNode(program->next,added);
 	}
@@ -101,9 +101,3 @@ void draw(NODE *program){
 	memFree(program);
 	free(origin);
 }
-
-
-
-
-
-

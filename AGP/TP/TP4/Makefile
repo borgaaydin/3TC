@@ -18,8 +18,11 @@ simple: main.c access.c
 test:
 	./main<test.logo
 
-val:
-	valgrind --leak-check=yes ./main<test.logo
+koch:
+	./main<koch.logo
 
-clean: 
+val:
+	valgrind --leak-check=yes ./main<koch.logo
+
+clean:
 	\rm -rf *.o main logo.tab.* lex.yy.c main.dSYM *.svg
