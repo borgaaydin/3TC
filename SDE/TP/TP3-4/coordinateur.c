@@ -14,7 +14,7 @@ void coordinateur(){
 	FIFO* fifo2=init();
 	FIFO* fifo3=init();
 	FIFO* fifo4=init();
-	/*TODO: arm signal SIGUSR1*/
+	//TODO: arm signal SIGUSR1
 	int f1, f2, f3, f4;
 	MSG message;
 	for(;;){
@@ -43,5 +43,5 @@ void coordinateur(){
 }
 
 void passage(){
-	
+
 }
