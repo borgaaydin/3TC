@@ -5,8 +5,10 @@ struct fifo {
 	int src;
 	int dest;
 	int id;
-	struct *fifo next;
-}FIFO;
+	struct fifo* next;
+};
+
+typedef struct fifo FIFO;
 
 FIFO* init();
 

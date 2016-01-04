@@ -1,5 +1,9 @@
+#include "message.h"
 #include <stdio.h>
-#include <stdlib.h> 
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
 #include <time.h>
 
 int
@@ -16,6 +20,10 @@ generateur_traffic(){
 	int source = 0;
 	srand(time(NULL));
 
+	key_t keyBal=100;
+	int bal=msgget(keyBal, IPC_CREAT|0666);
+	MSG message;
+	message.type=1;
 	int indice=0;
 	while(indice<=10){
 
@@ -28,6 +36,10 @@ generateur_traffic(){
 		while(source==dest) dest = ((rand()%4)+1);
 
 		printf("timer: %d, source :%d, dest :%d\n", timer,source,dest);
+		message.src=source;
+		message.dest=dest;
+		message.id=identifiant;
+		msgsnd(bal, &message, sizeof(message), 0);
 
 		identifiant++;
 		indice++;

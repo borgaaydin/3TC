@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "fifo.h"
 
 FIFO* init(){
 	FIFO* ret=(FIFO*)(malloc(sizeof(FIFO)));

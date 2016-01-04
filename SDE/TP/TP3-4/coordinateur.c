@@ -8,7 +8,7 @@
 void coordinateur(){
 	key_t keyBal=100, keyMem=200;
 	int bal=msgget(keyBal, IPC_CREAT|0666);
-	int shmid=shmget(key, sizeof(int)*8, IPC_CREAT|0777);
+	int shmid=shmget(keyMem, sizeof(int)*8, IPC_CREAT|0777);
 	int* feux=(int*) shmat(shmid, 0, 0);
 	FIFO* fifo1=init();
 	FIFO* fifo2=init();

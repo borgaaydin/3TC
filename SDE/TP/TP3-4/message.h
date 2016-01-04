@@ -6,6 +6,8 @@ struct message {
 	int src;
 	int dest;
 	int id;
-}MSG;
+};
+
+typedef struct message MSG;
 
 #endif
