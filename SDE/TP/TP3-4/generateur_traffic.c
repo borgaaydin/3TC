@@ -26,8 +26,6 @@ generateur_traffic(){
 	message.type=1;
 	int indice=0;
 	for(;;){
-
-
 		timer = rand()%6;
 
 		dest = (rand()%4)+1;
