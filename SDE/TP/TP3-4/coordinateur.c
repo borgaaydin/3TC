@@ -2,8 +2,10 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <sys/msg.h>
 #include "message.h"
 #include "fifo.h"
+#include "coordinateur.h"
 
 void coordinateur(){
 	key_t keyBal=100, keyMem=200;
@@ -44,4 +46,10 @@ void coordinateur(){
 
 void passage(){
 
+}
+
+int main(){
+	printf("\nI'm here\n");
+	coordinateur();
+	return 0;
 }

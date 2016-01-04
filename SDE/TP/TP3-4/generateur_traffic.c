@@ -25,7 +25,7 @@ generateur_traffic(){
 	MSG message;
 	message.type=1;
 	int indice=0;
-	while(indice<=10){
+	for(;;){
 
 
 		timer = rand()%6;
@@ -40,6 +40,7 @@ generateur_traffic(){
 		message.dest=dest;
 		message.id=identifiant;
 		msgsnd(bal, &message, sizeof(message), 0);
+		sleep(timer);
 
 		identifiant++;
 		indice++;
