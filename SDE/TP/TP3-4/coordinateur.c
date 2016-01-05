@@ -48,6 +48,10 @@ void coordinateur(){
 		quit();
 	}
 
+	while(pshmem[PID_FEUX] == 0){
+		fprintf(stdout, "Waiting for PID_FEUX ...\n" );
+		sleep(1);
+	}
 	int pid_feux = pshmem[PID_FEUX];
 	fprintf(stdout, "PID FEUX : %d\n", pid_feux);
 

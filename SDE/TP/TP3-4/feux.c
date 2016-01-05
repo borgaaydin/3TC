@@ -17,6 +17,7 @@ int* pshmem;
 
 void quit() {
     printf("Feux : Je meurs.\n");
+    pshmem[PID_FEUX] = 0;
     remove_shmem(id_shmem);
     exit(0);
 }
@@ -81,8 +82,8 @@ void feux(){
 }
 
 int main(){
-  signal(SIGQUIT, exit);
-  signal(SIGINT, exit);
+  signal(SIGQUIT, quit);
+  signal(SIGINT, quit);
 
   key_t cle_shmem = VAL_CLE_SHMEM;
 
