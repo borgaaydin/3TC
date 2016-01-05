@@ -7,18 +7,22 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 
+#include "variables.h"
 #include "shmem.h"
 #include "semaphore.h"
 
-void exit() {
+int id_shmem;
+int* pshmem;
+
+
+void quit() {
     printf("Feux : Je meurs.\n");
-    remove_semaphore(id_mutex);
     remove_shmem(id_shmem);
     exit(0);
 }
 
-const char * stringConvert(int indice) {
 
+const char * stringConvert(int indice) {
     switch(indice) {
     	case 0 :
     		return "NORTH";
@@ -77,12 +81,29 @@ void feux(){
 }
 
 int main(){
-  signal(SIGQUIT, exit());
-  signal(SIGINT, exit());
+  signal(SIGQUIT, exit);
+  signal(SIGINT, exit);
 
-
-  key_t cle_mutex = VAL_CLE_MUTEX;
   key_t cle_shmem = VAL_CLE_SHMEM;
+
+  if((id_shmem = create_shmem(cle_shmem, shmem_size)) == -1) {
+      printf("Coordinateur : Impossible de créer la mémoire partagée.\n");
+      quit();
+  }
+
+  // Attachement à la shmem
+  if((id_shmem = open_shmem(cle_shmem, shmem_size)) == -1) {
+      printf("Feux : Impossible d'ouvrir la mémoire partagée.\n");
+      quit();
+  }
+  if((pshmem = attach_shmem(id_shmem)) == -1) {
+      printf("Feux : Impossible de s'attacher à la mémoire partagée.\n");
+      quit();
+  }
+
+  pshmem[PID_FEUX]=getpid();
+
+
 
 	feux();
 }
