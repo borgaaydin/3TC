@@ -1,5 +1,7 @@
 #include "util.h"
+#include "fifo.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
@@ -36,10 +38,10 @@ generateur_traffic(){
 		printf("timer: %d, source :%d, dest :%d\n", timer,source,dest);
 		FIFO* car=newNode(source, dest, identifiant);
 		message.car=car;
+		printf("\n%d %d %d\n", message.car->src, message.car->dest, message.car->id);
 		msgsnd(bal, &message, sizeof(message), 0);
 		printf("\nHey!\n");
 		sleep(timer);
-
 		identifiant++;
 		indice++;
 	}

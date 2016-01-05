@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "fifo.h"
 
 FIFO* newNode(int src, int dest, int id){
