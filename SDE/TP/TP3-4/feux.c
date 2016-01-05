@@ -1,9 +1,24 @@
 #include <stdio.h>
-#include <stdlib.h> 
+#include <stdlib.h>
+#include <signal.h>
+
 //#include <time.h>
 
+#include <sys/types.h>
+#include <sys/ipc.h>
+
+#include "shmem.h"
+#include "semaphore.h"
+
+void exit() {
+    printf("Feux : Je meurs.\n");
+    remove_semaphore(id_mutex);
+    remove_shmem(id_shmem);
+    exit(0);
+}
+
 const char * stringConvert(int indice) {
-    
+
     switch(indice) {
     	case 0 :
     		return "NORTH";
@@ -62,5 +77,12 @@ void feux(){
 }
 
 int main(){
+  signal(SIGQUIT, exit());
+  signal(SIGINT, exit());
+
+
+  key_t cle_mutex = VAL_CLE_MUTEX;
+  key_t cle_shmem = VAL_CLE_SHMEM;
+
 	feux();
 }

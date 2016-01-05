@@ -17,10 +17,11 @@
 #define ROUGE 0
 
 // Mémoire partagée
-#define PID_COORD 0
-#define PID_FEUX 1
-#define PID_PRIO 2
-#define FEU1 3
-#define ID_PRIO 7
-#define DEPART_PRIO 8
-#define ARRIVEE_PRIO 9
+#define FEUX_NORD 0
+#define FEUX_EST 1
+#define FEUX_SUD 2
+#define FEUX_OUEST 3
+#define SRC_PRIO 7
+#define DEST_PRIO 8
+#define ID_PRIO 9
+#define PID_FEUX 10
