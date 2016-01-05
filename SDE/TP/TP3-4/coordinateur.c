@@ -3,16 +3,18 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <sys/msg.h>
-#include "message.h"
+#include <signal.h>
+#include "util.h"
 #include "fifo.h"
 #include "coordinateur.h"
+#include "variables.h"
 
 void prioritaire(){
 		printf("Coordinateur : Priority vehicle coming in hot. Changing the traffic lights\n");
-		kill(pid_feux, SIGUSR2);
+		kill(PID_FEUX, SIGUSR2);
 		printf("Coordinateur : Only the cars on the lane of priority are passing.\n");
 		//Lookup for the information about priority vehicle in the shared memory.
-		
+
 }
 
 void coordinateur(){
@@ -26,7 +28,7 @@ void coordinateur(){
 	FIFO* fifo3=init();
 	FIFO* fifo4=init();
 
-  signal(SIGUSR1, prioritaire());
+  signal(SIGUSR1, prioritaire);
 
 	int f1, f2, f3, f4;
 	MSG message;
@@ -36,18 +38,18 @@ void coordinateur(){
 		f3=feux[3];
 		f4=feux[4];
 		msgrcv(bal, &message, 100, 1, 0);
-		switch(message.src){
+		switch(message.car->src){
 			case 1:
-				add(fifo1, message.src, message.dest, message.id);
+				addNode(fifo1, message.car);
 				break;
 			case 2:
-				add(fifo2, message.src, message.dest, message.id);
+				addNode(fifo2, message.car);
 				break;
 			case 3:
-				add(fifo3, message.src, message.dest, message.id);
+				addNode(fifo3, message.car);
 				break;
 			case 4:
-				add(fifo4, message.src, message.dest, message.id);
+				addNode(fifo4, message.car);
 				break;
 		}
 		passage();
