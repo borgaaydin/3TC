@@ -1,17 +1,10 @@
 #ifndef FIFO_H
 #define FIFO_H
 
-struct fifo {
-	int src;
-	int dest;
-	int id;
-	struct fifo* next;
-};
+#include "util.h"
 
-typedef struct fifo FIFO;
+FIFO* newNode(int src, int dest, int id);
 
-FIFO* init();
-
-void add(FIFO* root, int src, int dest, int id);
+FIFO* addNode(FIFO* root, FIFO* next);
 
 #endif

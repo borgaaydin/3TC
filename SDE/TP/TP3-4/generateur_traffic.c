@@ -1,4 +1,4 @@
-#include "message.h"
+#include "util.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -34,10 +34,10 @@ generateur_traffic(){
 		while(source==dest) dest = ((rand()%4)+1);
 
 		printf("timer: %d, source :%d, dest :%d\n", timer,source,dest);
-		message.src=source;
-		message.dest=dest;
-		message.id=identifiant;
+		FIFO* car=newNode(source, dest, identifiant);
+		message.car=car;
 		msgsnd(bal, &message, sizeof(message), 0);
+		printf("\nHey!\n");
 		sleep(timer);
 
 		identifiant++;

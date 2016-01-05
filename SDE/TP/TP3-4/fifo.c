@@ -1,22 +1,21 @@
 #include <stdio.h>
 #include "fifo.h"
 
-FIFO* init(){
-	FIFO* ret=(FIFO*)(malloc(sizeof(FIFO)));
-	return ret;
-}
-
-void add(FIFO* root, int src, int dest, int id){
+FIFO* newNode(int src, int dest, int id){
 	FIFO* ret=(FIFO*)(malloc(sizeof(FIFO)));
 	ret->src=src;
 	ret->dest=dest;
 	ret->id=id;
 	ret->next=NULL;
-	if(root==NULL){
-		root=ret;
+	return (ret);
+}
+
+FIFO* addNode(FIFO* root, FIFO* next){
+	if (root->next!=NULL){
+		root->next=addNode(root->next,next);
 	}
-	else while(root->next!=NULL){
-		root=root->next;
+	else {
+		root->next=next;
 	}
-	root->next=ret;
+	return (root);
 }
