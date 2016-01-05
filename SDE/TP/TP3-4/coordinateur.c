@@ -7,16 +7,27 @@
 #include "fifo.h"
 #include "coordinateur.h"
 
+void prioritaire(){
+		printf("Coordinateur : Priority vehicle coming in hot. Changing the traffic lights\n");
+		kill(pid_feux, SIGUSR2);
+		printf("Coordinateur : Only the cars on the lane of priority are passing.\n");
+		//Lookup for the information about priority vehicle in the shared memory.
+		
+}
+
 void coordinateur(){
 	key_t keyBal=100, keyMem=200;
 	int bal=msgget(keyBal, IPC_CREAT|0666);
 	int shmid=shmget(keyMem, sizeof(int)*8, IPC_CREAT|0777);
 	int* feux=(int*) shmat(shmid, 0, 0);
+
 	FIFO* fifo1=init();
 	FIFO* fifo2=init();
 	FIFO* fifo3=init();
 	FIFO* fifo4=init();
-	//TODO: arm signal SIGUSR1
+
+  signal(SIGUSR1, prioritaire());
+
 	int f1, f2, f3, f4;
 	MSG message;
 	for(;;){
