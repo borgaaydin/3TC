@@ -86,11 +86,6 @@ int main(){
 
   key_t cle_shmem = VAL_CLE_SHMEM;
 
-  if((id_shmem = create_shmem(cle_shmem, shmem_size)) == -1) {
-      printf("Coordinateur : Impossible de créer la mémoire partagée.\n");
-      quit();
-  }
-
   // Attachement à la shmem
   if((id_shmem = open_shmem(cle_shmem, shmem_size)) == -1) {
       printf("Feux : Impossible d'ouvrir la mémoire partagée.\n");
