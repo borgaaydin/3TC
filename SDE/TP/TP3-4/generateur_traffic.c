@@ -7,6 +7,7 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <time.h>
+#include "variables.h"
 
 int
 quitter(){
@@ -22,7 +23,7 @@ generateur_traffic(){
 	int source = 0;
 	srand(time(NULL));
 
-	key_t keyBal=100;
+	key_t keyBal= VAL_CLE_BAL;
 	int bal=msgget(keyBal, IPC_CREAT|0666);
 	MSG message;
 	message.type=1;

@@ -30,7 +30,7 @@ void prioritaire(){
 }
 
 void coordinateur(){
-	key_t keyBal=100;
+	key_t keyBal=VAL_CLE_BAL;
 	int bal=msgget(keyBal, IPC_CREAT|0666);
 
 	key_t cle_shmem = VAL_CLE_SHMEM;
