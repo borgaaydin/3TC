@@ -64,29 +64,52 @@ void coordinateur(){
 	MSG message;
 	for(;;){
 		msgrcv(bal, &message, sizeof(MSG), 1, 0);
-		printf("\n%d\n", message.dest);
 		FIFO* car=newNode(message.src, message.dest, message.id);
 		switch(car->src){
 			case 1:
+				printf("\nAdding to fifo1\n");
 				fifo1=addNode(fifo1, car);
 				break;
 			case 2:
+				printf("\nAdding to fifo2\n");
 				fifo2=addNode(fifo2, car);
 				break;
 			case 3:
+				printf("\nAdding to fifo3\n");
 				fifo3=addNode(fifo3, car);
 				break;
 			case 4:
+				printf("\nAdding to fifo4\n");
 				fifo4=addNode(fifo4, car);
 				break;
 		}
-		passage();
+		passage(pshmem, fifo1, fifo2, fifo3, fifo4);
 	}
 	//TODO: destroy IPCs
 }
 
-void passage(){
-
+void passage(int* pshmem, FIFO* fifo1, FIFO* fifo2, FIFO* fifo3, FIFO* fifo4){
+	if(pshmem[0]==0 && pshmem[2]==0){
+		printf("\nFeux 1 et 3 verts");
+		if(fifo1!=NULL){
+			printf("\nCar #%d is going from %d to %d\n", fifo1->id, fifo1->src, fifo1->dest);
+			fifo1=fifo1->next;
+		}
+		if(fifo3!=NULL){
+			printf("\nCar #%d is going from %d to %d\n", fifo3->id, fifo3->src, fifo3->dest);
+			fifo3=fifo3->next;
+		}
+	}else{
+		printf("\nFeux 2 et 4 verts");
+		if(fifo2!=NULL){
+			printf("\nCar #%d is going from %d to %d\n", fifo2->id, fifo2->src, fifo2->dest);
+			fifo2=fifo2->next;
+		}
+		if(fifo4!=NULL){
+			printf("\nCar #%d is going from %d to %d\n", fifo4->id, fifo4->src, fifo4->dest);
+			fifo4=fifo4->next;
+		}
+	}
 }
 
 int main(){
