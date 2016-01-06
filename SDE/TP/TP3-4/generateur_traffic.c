@@ -40,9 +40,7 @@ generateur_traffic(){
 		message.src=source;
 		message.dest=dest;
 		message.id=identifiant;
-		printf("\n%d %d %d\n", message.src, message.dest, message.id);
 		msgsnd(bal, &message, sizeof(MSG), 0);
-		printf("\nHey!\n");
 		sleep(timer);
 		identifiant++;
 		indice++;
