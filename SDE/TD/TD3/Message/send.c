@@ -7,7 +7,7 @@
 
 int main(){
 	key_t key=100;
-	int bal=msgget(key, IPC_CREAT|0666);
+	int bal=msgget(KEY, IPC_CREAT|0666);
 	MSG message;
 	message.type=1;
 	do {

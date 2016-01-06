@@ -30,10 +30,8 @@ void prioritaire(){
 }
 
 void coordinateur(){
-	key_t keyBal=100, keyMem=200;
+	key_t keyBal=100;
 	int bal=msgget(keyBal, IPC_CREAT|0666);
-	int shmid=shmget(keyMem, sizeof(int)*8, IPC_CREAT|0777);
-	int* feux=(int*) shmat(shmid, 0, 0);
 
 	key_t cle_shmem = VAL_CLE_SHMEM;
 
@@ -55,37 +53,35 @@ void coordinateur(){
 	int pid_feux = pshmem[PID_FEUX];
 	fprintf(stdout, "PID FEUX : %d\n", pid_feux);
 
-	// FIFO* fifo1=init();
-	// FIFO* fifo2=init();
-	// FIFO* fifo3=init();
-	// FIFO* fifo4=init();
+	FIFO* fifo1=(FIFO*)(malloc(sizeof(FIFO)));
+	FIFO* fifo2=(FIFO*)(malloc(sizeof(FIFO)));
+	FIFO* fifo3=(FIFO*)(malloc(sizeof(FIFO)));
+	FIFO* fifo4=(FIFO*)(malloc(sizeof(FIFO)));
 
-  signal(SIGUSR1, prioritaire);
-	//
-	// int f1, f2, f3, f4;
-	// MSG message;
-	// for(;;){
-	// 	f1=feux[1];
-	// 	f2=feux[2];
-	// 	f3=feux[3];
-	// 	f4=feux[4];
-	// 	msgrcv(bal, &message, 100, 1, 0);
-	// 	switch(message.car->src){
-	// 		case 1:
-	// 			addNode(fifo1, message.car);
-	// 			break;
-	// 		case 2:
-	// 			addNode(fifo2, message.car);
-	// 			break;
-	// 		case 3:
-	// 			addNode(fifo3, message.car);
-	// 			break;
-	// 		case 4:
-	// 			addNode(fifo4, message.car);
-	// 			break;
-	// 	}
-	// 	passage();
-	// }
+	signal(SIGUSR1, prioritaire);
+
+	int f1, f2, f3, f4;
+	MSG message;
+	for(;;){
+		msgrcv(bal, &message, sizeof(MSG), 1, 0);
+		printf("\n%d\n", message.dest);
+		FIFO* car=newNode(message.src, message.dest, message.id);
+		switch(car->src){
+			case 1:
+				fifo1=addNode(fifo1, car);
+				break;
+			case 2:
+				fifo2=addNode(fifo2, car);
+				break;
+			case 3:
+				fifo3=addNode(fifo3, car);
+				break;
+			case 4:
+				fifo4=addNode(fifo4, car);
+				break;
+		}
+		passage();
+	}
 	//TODO: destroy IPCs
 }
 
@@ -94,7 +90,6 @@ void passage(){
 }
 
 int main(){
-	printf("\nI'm here\n");
 	coordinateur();
 	return 0;
 }

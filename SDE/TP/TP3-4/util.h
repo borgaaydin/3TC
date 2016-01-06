@@ -12,7 +12,9 @@ typedef struct fifo FIFO;
 
 struct message {
 	long type;
-	FIFO* car;
+	int src;
+	int dest;
+	int id;
 };
 
 typedef struct message MSG;

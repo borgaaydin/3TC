@@ -36,10 +36,11 @@ generateur_traffic(){
 		while(source==dest) dest = ((rand()%4)+1);
 
 		printf("timer: %d, source :%d, dest :%d\n", timer,source,dest);
-		FIFO* car=newNode(source, dest, identifiant);
-		message.car=car;
-		printf("\n%d %d %d\n", message.car->src, message.car->dest, message.car->id);
-		msgsnd(bal, &message, sizeof(message), 0);
+		message.src=source;
+		message.dest=dest;
+		message.id=identifiant;
+		printf("\n%d %d %d\n", message.src, message.dest, message.id);
+		msgsnd(bal, &message, sizeof(MSG), 0);
 		printf("\nHey!\n");
 		sleep(timer);
 		identifiant++;
