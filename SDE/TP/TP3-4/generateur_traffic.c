@@ -10,24 +10,31 @@
 #include "variables.h"
 
 int
-quitter(){
-
-return 0;
+quit(){
+ 	exit(0);
 }
 
 int
 generateur_traffic(){
+	//Variable Initializations
 	int identifiant = 0;
 	int timer = 0;
 	int dest = 0;
 	int source = 0;
-	srand(time(NULL));
-
-	key_t keyBal= VAL_CLE_BAL;
-	int bal=msgget(keyBal, IPC_CREAT|0666);
+	int id_mailbox = -1;
+	key_t key_mailbox= KEY_MAILBOX;
 	MSG message;
 	message.type=1;
 	int indice=0;
+	srand(time(NULL));
+
+	// IPC Declarations
+
+	if((id_mailbox = msgget(key_mailbox, IPC_CREAT|0666)) == -1) {
+		printf("Coordinateur : Impossible de créer la boite aux lettres.\n");
+		quit();
+	}
+
 	for(;;){
 		timer = rand()%6;
 
@@ -40,7 +47,7 @@ generateur_traffic(){
 		message.src=source;
 		message.dest=dest;
 		message.id=identifiant;
-		msgsnd(bal, &message, sizeof(MSG), 0);
+		msgsnd(id_mailbox, &message, sizeof(MSG), 0);
 		sleep(timer);
 		identifiant++;
 		indice++;

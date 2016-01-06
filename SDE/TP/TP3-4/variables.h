@@ -1,7 +1,7 @@
-// Clés des différentes IPC
-#define VAL_CLE_BAL 79 // Boîte aux lettres voitures
-#define VAL_CLE_SHMEM 89 // Mémoire partagée
-#define VAL_CLE_MUTEX 99 // Mutex
+// KEYS OF DIFFERENT IPCs
+#define KEY_MAILBOX 256 // Mailbox for vehicles
+#define KEY_SHMEM 89 // Shared Memory
+#define KEY_MUTEX 99 // Mutex
 
 #define TYPE_BAL 1
 #define NB_VOITURES 3

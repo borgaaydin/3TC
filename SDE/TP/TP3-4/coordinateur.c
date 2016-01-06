@@ -14,7 +14,7 @@
 
 int id_shmem;
 int* pshmem;
-
+int id_mailbox;
 
 
 void quit(){
@@ -30,12 +30,17 @@ void prioritaire(){
 }
 
 void coordinateur(){
-	key_t keyBal=VAL_CLE_BAL;
-	int bal=msgget(keyBal, IPC_CREAT|0666);
+	MSG message;
+	int f1, f2, f3, f4;
+	key_t key_mailbox = KEY_MAILBOX;
+	key_t key_shmem = KEY_SHMEM;
 
-	key_t cle_shmem = VAL_CLE_SHMEM;
+	if((id_mailbox = msgget(key_mailbox, IPC_CREAT|0666)) == -1) {
+		printf("Coordinateur : Impossible de créer la boite aux lettres.\n");
+		quit();
+	}
 
-	if((id_shmem = create_shmem(cle_shmem, shmem_size)) == -1) {
+	if((id_shmem = create_shmem(key_shmem, shmem_size)) == -1) {
 		printf("Coordinateur : Impossible de créer la mémoire partagée.\n");
 		quit();
 	}
@@ -50,6 +55,12 @@ void coordinateur(){
 		fprintf(stdout, "Waiting for PID_FEUX ...\n" );
 		sleep(1);
 	}
+
+	// while(msgrcv(id_mailbox, &message, sizeof(MSG), 1, 0) == -1){
+	// 	fprintf(stdout, "Waiting for MAILBOX ! ...\n" );
+	// 	sleep(1);
+	// }
+
 	int pid_feux = pshmem[PID_FEUX];
 	fprintf(stdout, "PID FEUX : %d\n", pid_feux);
 
@@ -60,10 +71,9 @@ void coordinateur(){
 
 	signal(SIGUSR1, prioritaire);
 
-	int f1, f2, f3, f4;
-	MSG message;
 	for(;;){
-		msgrcv(bal, &message, sizeof(MSG), 1, 0);
+		msgrcv(id_mailbox, &message, sizeof(MSG), 1, 0);
+		printf("\n%d\n", message.dest);
 		FIFO* car=newNode(message.src, message.dest, message.id);
 		switch(car->src){
 			case 1:

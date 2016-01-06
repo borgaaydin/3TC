@@ -67,7 +67,7 @@ void feux(){
       for(int k = 0; k<4;k++){
         pshmem[k]=feux[k];
       }
-      
+
 			affichageFeux(feux,4);
 			printf("---------\n");
 
@@ -96,7 +96,7 @@ int main(){
   signal(SIGQUIT, quit);
   signal(SIGINT, quit);
 
-  key_t cle_shmem = VAL_CLE_SHMEM;
+  key_t cle_shmem = KEY_SHMEM;
 
   // Attachement à la shmem
   if((id_shmem = open_shmem(cle_shmem, shmem_size)) == -1) {
