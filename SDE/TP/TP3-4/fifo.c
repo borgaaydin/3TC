@@ -12,7 +12,6 @@ FIFO* newNode(int src, int dest, int id){
 }
 
 FIFO* addNode(FIFO* root, FIFO* next){
-	printf("\nAhoy!\n");
 	if (root->next!=NULL){
 		root->next=addNode(root->next,next);
 	}
