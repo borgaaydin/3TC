@@ -63,18 +63,29 @@ void feux(){
 			feux[1] = 1;
 			feux[2] = 0;
 			feux[3] = 1;
+
+      for(int k = 0; k<4;k++){
+        pshmem[k]=feux[k];
+      }
+      
 			affichageFeux(feux,4);
 			printf("---------\n");
-			// TODO:envoi a mem part
+
+
 		}
 		else {
 			feux[0] = 1;
 			feux[1] = 0;
 			feux[2] = 1;
 			feux[3] = 0;
+
+      for(int k = 0; k<4;k++){
+        pshmem[k]=feux[k];
+      }
+
 			affichageFeux(feux,4);
 			printf("---------\n");
-			// TODO:envoi a mem part
+
 		}
 		counter++;
 		sleep(5);
@@ -98,8 +109,6 @@ int main(){
   }
 
   pshmem[PID_FEUX]=getpid();
-
-
 
 	feux();
 }
