@@ -11,6 +11,8 @@
 #include "shmem.h"
 #include "semaphore.h"
 
+#include "feux.h"
+
 int id_shmem;
 int* pshmem;
 
@@ -22,13 +24,27 @@ void quit() {
 }
 
 void priority(){
-  int i = pshmem[DEST_PRIO];
+	int feuxPrioritaire[4] = {};
+  int src = 0, dest = 0, id = 0;
+  src = pshmem[SRC_PRIO];
+  dest = pshmem[DEST_PRIO];
+  id = pshmem[ID_PRIO];
+  printf("Src Prio : %d, Dest Prio : %d, ID Prio : %d \n", src,dest,id);
   for(int k = 0; k<4;k++){
-    feux[k] = 0; // Turn red all the lights
+    feuxPrioritaire[k] = 1; // Turn red all the lights
   }
-  feux[i] = 1; // Turn green the priority lane
-}
+  feuxPrioritaire[src] = 0; // Turn green the priority lane
 
+  //Put the state of lights into the Shared Memory
+  for(int k = 0; k<4;k++){
+    pshmem[k]=feuxPrioritaire[k];
+  }
+  for(;;){
+    signal(SIGUSR1, feux);
+		affichageFeux(feuxPrioritaire,4);
+		sleep(5);
+  }
+}
 
 const char * stringConvert(int indice) {
     switch(indice) {
@@ -56,29 +72,23 @@ void affichageFeux(int tab[], int size){
 			printf("%s : X RED X\n", stringConvert(i));
 		}
 	}
+	printf("---------\n");
 }
 
 void feux(){
 	int feux[4] = {};
 	int counter = 0;
-
-
 	while(1){
-
+    signal(SIGUSR2, priority);
 		if(counter%2==0){
 			feux[0] = 0;
 			feux[1] = 1;
 			feux[2] = 0;
 			feux[3] = 1;
-
       for(int k = 0; k<4;k++){
         pshmem[k]=feux[k];
       }
-
 			affichageFeux(feux,4);
-			printf("---------\n");
-
-
 		}
 		else {
 			feux[0] = 1;
@@ -89,10 +99,7 @@ void feux(){
       for(int k = 0; k<4;k++){
         pshmem[k]=feux[k];
       }
-
 			affichageFeux(feux,4);
-			printf("---------\n");
-
 		}
 		counter++;
 		sleep(5);
@@ -103,11 +110,7 @@ int main(){
   signal(SIGQUIT, quit);
   signal(SIGINT, quit);
 
-  signal(SIGUSR2, priority);
-  signal(SIGUSR1, feux);
-
   key_t cle_shmem = KEY_SHMEM;
-
   // Attachement à la shmem
   if((id_shmem = open_shmem(cle_shmem, shmem_size)) == -1) {
       printf("Feux : Impossible d'ouvrir la mémoire partagée.\n");
@@ -117,7 +120,7 @@ int main(){
       printf("Feux : Impossible de s'attacher à la mémoire partagée.\n");
       quit();
   }
-
+  printf("PID Feux : %d\n", getpid());
   pshmem[PID_FEUX]=getpid();
 
 	feux();

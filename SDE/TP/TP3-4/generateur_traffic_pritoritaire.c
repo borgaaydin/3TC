@@ -36,27 +36,32 @@ void generateurTrafficPrioritaire(){
 			printf("generateurTrafficPrioritaire : Impossible de s'attacher à la mémoire partagée.\n");
 			quit();
 	}
+	pshmem[SRC_PRIO] = 0;
+	pshmem[DEST_PRIO] = 0;
+	pshmem[ID_PRIO] = 0;
+
 	pshmem[PID_PRIO]=getpid();
 	int pid_coord = pshmem[PID_COORD];
 	printf("PID generPrio : %d\n", getpid());
 	printf("PID Coord : %d\n", pid_coord);
 
 
-	int timer, source, dest, id=0;
+	int timer, source, dest, id=100;
 	srand(time(NULL));
-	for(int j=0;j<10;j++){
+	for(int j=0;j<2;j++){
 		timer=rand()%26;
 		while(timer<15){
 			timer=rand()%26;
 		}
 		printf("Timer is UP: %d s\n", timer);
-		sleep(timer);
+		sleep(10);
 		printf("Timer is DOWN: %d s\n", timer);
 		source=(rand()%4)+1;
 		dest=(rand()%4)+1;
 		while(dest==source){
 			dest=(rand()%4)+1;
 		}
+
 		pshmem[SRC_PRIO] = source;
 		pshmem[DEST_PRIO] = dest;
 		pshmem[ID_PRIO] = id;
