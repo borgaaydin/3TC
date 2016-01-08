@@ -18,15 +18,20 @@ int id_mailbox;
 
 
 void quit(){
-
+	pshmem[PID_COORD] = 0;
+  msgctl(id_mailbox, IPC_RMID, NULL);
+	remove_shmem(id_shmem);
+	exit(0);
 }
 
 void prioritaire(){
 		printf("Coordinateur : Priority vehicle coming in hot. Changing the traffic lights\n");
 		kill(PID_FEUX, SIGUSR2);
 		printf("Coordinateur : Only the cars on the lane of priority are passing.\n");
+		pshmem[SRC_PRIO] = source;
+		pshmem[DEST_PRIO] = dest;
+		pshmem[ID_PRIO] = id;
 		//Lookup for the information about priority vehicle in the shared memory.
-
 }
 
 void coordinateur(){
@@ -62,7 +67,10 @@ void coordinateur(){
 	// }
 
 	int pid_feux = pshmem[PID_FEUX];
-	fprintf(stdout, "PID FEUX : %d\n", pid_feux);
+	pshmem[PID_COORD] = getpid();
+
+	fprintf(stdout, "PID feux : %d\n", pid_feux);
+	fprintf(stdout, "PID Coord : %d\n", getpid());
 
 	FIFO* fifo1=NULL;
 	FIFO* fifo2=NULL;
