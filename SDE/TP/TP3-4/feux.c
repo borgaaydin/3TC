@@ -14,12 +14,19 @@
 int id_shmem;
 int* pshmem;
 
-
 void quit() {
     printf("Feux : Je meurs.\n");
     pshmem[PID_FEUX] = 0;
     remove_shmem(id_shmem);
     exit(0);
+}
+
+void priority(){
+  int i = pshmem[DEST_PRIO];
+  for(int k = 0; k<4;k++){
+    feux[k] = 0; // Turn red all the lights
+  }
+  feux[i] = 1; // Turn green the priority lane
 }
 
 
@@ -95,6 +102,9 @@ void feux(){
 int main(){
   signal(SIGQUIT, quit);
   signal(SIGINT, quit);
+
+  signal(SIGUSR2, priority);
+  signal(SIGUSR1, feux);
 
   key_t cle_shmem = KEY_SHMEM;
 

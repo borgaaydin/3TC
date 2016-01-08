@@ -25,5 +25,7 @@
 #define DEST_PRIO 8
 #define ID_PRIO 9
 #define PID_FEUX 10
+#define PID_PRIO 11
+#define PID_COORD 12
 
-int shmem_size = sizeof(int)*10;
+int shmem_size = sizeof(int)*12;
