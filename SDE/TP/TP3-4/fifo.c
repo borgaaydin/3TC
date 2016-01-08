@@ -12,12 +12,20 @@ FIFO* newNode(int src, int dest, int id){
 }
 
 FIFO* addNode(FIFO* root, FIFO* next){
-	if (root->next!=NULL){
-		root->next=addNode(root->next,next);
+	if(root==NULL){
+		return(next);
 	}
-	else {
-		root->next=next;
-		printf("\nNode added: id: %d; src: %d; dest: %d", root->next->id, root->next->src, root->next->dest);
+	while(root->next!=NULL){
+		root=root->next;
 	}
-	return (root);
+	root->next=next;
+	return root;
+	// if (root->next!=NULL){
+	// 	root->next=addNode(root->next,next);
+	// }
+	// else {
+	// 	root->next=next;
+	// 	printf("\nNode added: id: %d; src: %d; dest: %d", root->next->id, root->next->src, root->next->dest);
+	// }
+	// return (root);
 }

@@ -64,10 +64,10 @@ void coordinateur(){
 	int pid_feux = pshmem[PID_FEUX];
 	fprintf(stdout, "PID FEUX : %d\n", pid_feux);
 
-	FIFO* fifo1=(FIFO*)(malloc(sizeof(FIFO)));
-	FIFO* fifo2=(FIFO*)(malloc(sizeof(FIFO)));
-	FIFO* fifo3=(FIFO*)(malloc(sizeof(FIFO)));
-	FIFO* fifo4=(FIFO*)(malloc(sizeof(FIFO)));
+	FIFO* fifo1=NULL;
+	FIFO* fifo2=NULL;
+	FIFO* fifo3=NULL;
+	FIFO* fifo4=NULL;
 
 	signal(SIGUSR1, prioritaire);
 
@@ -98,29 +98,29 @@ void coordinateur(){
 	//TODO: destroy IPCs
 }
 
-void passage(int* pshmem, FIFO* fifo1, FIFO* fifo2, FIFO* fifo3, FIFO* fifo4){
-	if(pshmem[0]==0 && pshmem[2]==0){
-		printf("\nFeux 1 et 3 verts");
-		if(fifo1!=NULL){
-			printf("\nCar #%d is going from %d to %d\n", fifo1->id, fifo1->src, fifo1->dest);
-			fifo1=fifo1->next;
-		}
-		if(fifo3!=NULL){
-			printf("\nCar #%d is going from %d to %d\n", fifo3->id, fifo3->src, fifo3->dest);
-			fifo3=fifo3->next;
-		}
-	}else{
-		printf("\nFeux 2 et 4 verts");
-		if(fifo2!=NULL){
-			printf("\nCar #%d is going from %d to %d\n", fifo2->id, fifo2->src, fifo2->dest);
-			fifo2=fifo2->next;
-		}
-		if(fifo4!=NULL){
-			printf("\nCar #%d is going from %d to %d\n", fifo4->id, fifo4->src, fifo4->dest);
-			fifo4=fifo4->next;
-		}
-	}
-}
+// void passage(int* pshmem, FIFO* fifo1, FIFO* fifo2, FIFO* fifo3, FIFO* fifo4){
+// 	if(pshmem[0]==0 && pshmem[2]==0){
+// 		printf("\nFeux 1 et 3 verts");
+// 		if(fifo1!=NULL){
+// 			printf("\nCar #%d is going from %d to %d\n", fifo1->id, fifo1->src, fifo1->dest);
+// 			fifo1=fifo1->next;
+// 		}
+// 		if(fifo3!=NULL){
+// 			printf("\nCar #%d is going from %d to %d\n", fifo3->id, fifo3->src, fifo3->dest);
+// 			fifo3=fifo3->next;
+// 		}
+// 	}else{
+// 		printf("\nFeux 2 et 4 verts");
+// 		if(fifo2!=NULL){
+// 			printf("\nCar #%d is going from %d to %d\n", fifo2->id, fifo2->src, fifo2->dest);
+// 			fifo2=fifo2->next;
+// 		}
+// 		if(fifo4!=NULL){
+// 			printf("\nCar #%d is going from %d to %d\n", fifo4->id, fifo4->src, fifo4->dest);
+// 			fifo4=fifo4->next;
+// 		}
+// 	}
+// }
 
 int main(){
 	coordinateur();
