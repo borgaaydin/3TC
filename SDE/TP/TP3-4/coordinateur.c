@@ -113,21 +113,21 @@ void coordinateur(){
 void priorite(FIFO* fifo1, FIFO* fifo2, int feux){
 	if(fifo1!=0){
 		if((feux==0 && (fifo1->dest==3 || fifo1->dest==2)) || (feux==1 && (fifo1->dest==0 || fifo1->dest==3))){
-				printf("\nCar #%d is going from %s to %s", fifo1->id, fifo1->src, fifo1->dest);
+				printf("\nCar #%d is going from %d to %d", fifo1->id, fifo1->src, fifo1->dest);
 				if(fifo2!=0){
-					printf("\nCar #%d is going from %s to %s", fifo2->id, fifo2->src, fifo2->dest);
+					printf("\nCar #%d is going from %d to %d", fifo2->id, fifo2->src, fifo2->dest);
 				}
 			}
 			else{
 				if(fifo2!=0){
-					printf("\nCar #%d is going from %s to %s", fifo2->id, fifo2->src, fifo2->dest);
+					printf("\nCar #%d is going from %d to %d", fifo2->id, fifo2->src, fifo2->dest);
 				}
-				printf("\nCar #%d is going from %s to %s", fifo1->id, fifo1->src, fifo1->dest);
+				printf("\nCar #%d is going from %d to %d", fifo1->id, fifo1->src, fifo1->dest);
 		}
 	}
 	else{
 		if (fifo2!=NULL){
-			printf("\nCar #%d is going from %s to %s", fifo2->id, fifo2->src, fifo2->dest);
+			printf("\nCar #%d is going from %d to %d", fifo2->id, fifo2->src, fifo2->dest);
 		}
 	}
 }
