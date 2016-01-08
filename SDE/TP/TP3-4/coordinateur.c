@@ -25,12 +25,13 @@ void quit(){
 }
 
 void prioritaire(){
+		int srcPrio, destPrio, idPrio;
 		printf("Coordinateur : Priority vehicle coming in hot. Changing the traffic lights\n");
 		kill(PID_FEUX, SIGUSR2);
 		printf("Coordinateur : Only the cars on the lane of priority are passing.\n");
-		pshmem[SRC_PRIO] = source;
-		pshmem[DEST_PRIO] = dest;
-		pshmem[ID_PRIO] = id;
+		pshmem[SRC_PRIO] = srcPrio;
+		pshmem[DEST_PRIO] = destPrio;
+		pshmem[ID_PRIO] = idPrio;
 		//Lookup for the information about priority vehicle in the shared memory.
 }
 
