@@ -19,21 +19,4 @@ struct message {
 
 typedef struct message MSG;
 
-const char * stringConvert(int indice) {
-    switch(indice) {
-    	case 0 :
-    		return "NORTH";
-    		break;
-    	case 1 :
-    		return "EAST";
-    		break;
-    	case 2 :
-    		return "SOUTH";
-    		break;
-    	case 3 :
-    		return "WEST";
-    		break;
-    }
-}
-
 #endif
