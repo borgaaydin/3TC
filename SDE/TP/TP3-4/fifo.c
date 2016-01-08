@@ -20,12 +20,16 @@ FIFO* addNode(FIFO* root, FIFO* next){
 	}
 	root->next=next;
 	return root;
-	// if (root->next!=NULL){
-	// 	root->next=addNode(root->next,next);
-	// }
-	// else {
-	// 	root->next=next;
-	// 	printf("\nNode added: id: %d; src: %d; dest: %d", root->next->id, root->next->src, root->next->dest);
-	// }
-	// return (root);
+}
+
+FIFO* delNode(FIFO* root){
+	FIFO* temp=(FIFO*)malloc(sizeof(FIFO));
+	if(root==NULL){
+		temp=NULL;
+	}
+	else{
+		temp=root->next;
+		free(root);
+	}
+	return temp;
 }

@@ -3,6 +3,6 @@
 
 #include "util.h"
 
-void passage(int* pshmem, FIFO* fifo1, FIFO* fifo2, FIFO* fifo3, FIFO* fifo4);
+void priorite(FIFO* fifo1, FIFO* fifo2, int feux);
 
 #endif

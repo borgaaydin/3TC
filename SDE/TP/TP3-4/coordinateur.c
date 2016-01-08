@@ -73,49 +73,54 @@ void coordinateur(){
 
 	for(;;){
 		msgrcv(id_mailbox, &message, sizeof(MSG), 1, 0);
-		printf("\n%d\n", message.dest);
 		FIFO* car=newNode(message.src, message.dest, message.id);
 		switch(car->src){
 			case 1:
-				printf("\nAdding to fifo1\n");
 				fifo1=addNode(fifo1, car);
 				break;
 			case 2:
-				printf("\nAdding to fifo2\n");
 				fifo2=addNode(fifo2, car);
 				break;
 			case 3:
-				printf("\nAdding to fifo3\n");
 				fifo3=addNode(fifo3, car);
 				break;
 			case 4:
-				printf("\nAdding to fifo4\n");
 				fifo4=addNode(fifo4, car);
 				break;
 		}
 		if(pshmem[0]==0 && pshmem[2]==0){
-			printf("\nFeux 1 et 3 verts");
-			if(fifo1!=NULL){
-				printf("\nCar #%d is going from %d to %d\n", fifo1->id, fifo1->src, fifo1->dest);
-				fifo1=fifo1->next;
-			}
-			if(fifo3!=NULL){
-				printf("\nCar #%d is going from %d to %d\n", fifo3->id, fifo3->src, fifo3->dest);
-				fifo3=fifo3->next;
-			}
+			priorite(fifo1, fifo3, 0);
+			fifo1=delNode(fifo1);
+			fifo3=delNode(fifo3);
 		}else{
-			printf("\nFeux 2 et 4 verts");
-			if(fifo2!=NULL){
-				printf("\nCar #%d is going from %d to %d\n", fifo2->id, fifo2->src, fifo2->dest);
-				fifo2=fifo2->next;
-			}
-			if(fifo4!=NULL){
-				printf("\nCar #%d is going from %d to %d\n", fifo4->id, fifo4->src, fifo4->dest);
-				fifo4=fifo4->next;
-			}
+			priorite(fifo2, fifo4, 1);
+			fifo2=delNode(fifo2);
+			fifo4=delNode(fifo4);
 		}
 	}
 	//TODO: destroy IPCs
+}
+
+void priorite(FIFO* fifo1, FIFO* fifo2, int feux){
+	if(fifo1!=0){
+		if((feux==0 && (fifo1->dest==3 || fifo1->dest==2)) || (feux==1 && (fifo1->dest==0 || fifo1->dest==3))){
+				printf("\nCar #%d is going from %s to %s", fifo1->id, stringConvert(fifo1->src), stringConvert(fifo1->dest));
+				if(fifo2!=0){
+					printf("\nCar #%d is going from %s to %s", fifo2->id, stringConvert(fifo2->src), stringConvert(fifo2->dest));
+				}
+			}
+			else{
+				if(fifo2!=0){
+					printf("\nCar #%d is going from %s to %s", fifo2->id, stringConvert(fifo2->src), stringConvert(fifo2->dest));
+				}
+				printf("\nCar #%d is going from %s to %s", fifo1->id, stringConvert(fifo1->src), stringConvert(fifo1->dest));
+		}
+	}
+	else{
+		if (fifo2!=NULL){
+			printf("\nCar #%d is going from %s to %s", fifo2->id, stringConvert(fifo2->src), stringConvert(fifo2->dest));
+		}
+	}
 }
 
 int main(){

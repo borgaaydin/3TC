@@ -7,4 +7,6 @@ FIFO* newNode(int src, int dest, int id);
 
 FIFO* addNode(FIFO* root, FIFO* next);
 
+FIFO* delNode(FIFO* root);
+
 #endif
