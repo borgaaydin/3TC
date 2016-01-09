@@ -24,26 +24,27 @@ void quit() {
 }
 
 void priority(){
-	int feuxPrioritaire[4] = {};
-  int src = 0, dest = 0, id = 0;
-  src = pshmem[SRC_PRIO];
-  dest = pshmem[DEST_PRIO];
-  id = pshmem[ID_PRIO];
-  printf("Src Prio : %d, Dest Prio : %d, ID Prio : %d \n", src,dest,id);
-  for(int k = 0; k<4;k++){
-    feuxPrioritaire[k] = 1; // Turn red all the lights
-  }
-  feuxPrioritaire[src] = 0; // Turn green the priority lane
+    int feuxPrioritaire[4] = {};
+    int src = 0, dest = 0, id = 0;
+    src = pshmem[SRC_PRIO];
+    dest = pshmem[DEST_PRIO];
+    id = pshmem[ID_PRIO];
+    printf("Src Prio : %d, Dest Prio : %d, ID Prio : %d \n", src,dest,id);
+    for(int k = 0; k<4;k++){
+        feuxPrioritaire[k] = 1; // Turn red all the lights
+    }
+    feuxPrioritaire[src] = 0; // Turn green the priority lane
+    affichageFeux(feuxPrioritaire,4);
 
-  //Put the state of lights into the Shared Memory
-  for(int k = 0; k<4;k++){
-    pshmem[k]=feuxPrioritaire[k];
-  }
-  for(;;){
-    signal(SIGUSR1, feux);
-		affichageFeux(feuxPrioritaire,4);
-		sleep(5);
-  }
+    //Put the state of lights into the Shared Memory
+    for(int k = 0; k<4;k++){
+        pshmem[k]=feuxPrioritaire[k];
+    }
+    for(;;){
+        signal(SIGUSR1, feux);
+        affichageFeux(feuxPrioritaire,4);
+        sleep(5);
+    }
 }
 
 const char * stringConvert(int indice) {

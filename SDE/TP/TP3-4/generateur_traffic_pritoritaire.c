@@ -46,7 +46,7 @@ void generateurTrafficPrioritaire(){
 	printf("PID Coord : %d\n", pid_coord);
 
 
-	int timer, source, dest, id=100;
+	int timer, source, dest, id=0;
 	srand(time(NULL));
 	for(int j=0;j<2;j++){
 		timer=rand()%26;
@@ -54,7 +54,7 @@ void generateurTrafficPrioritaire(){
 			timer=rand()%26;
 		}
 		printf("Timer is UP: %d s\n", timer);
-		sleep(10);
+		sleep(timer);
 		printf("Timer is DOWN: %d s\n", timer);
 		source=(rand()%4)+1;
 		dest=(rand()%4)+1;
@@ -66,7 +66,7 @@ void generateurTrafficPrioritaire(){
 		pshmem[DEST_PRIO] = dest;
 		pshmem[ID_PRIO] = id;
 
-    kill(pid_coord, SIGUSR1);
+    	kill(pid_coord, SIGUSR1);
 		printf("! --- PRIORITAIRE --- ! Source: %d, Dest: %d, ID :%d\n", source, dest, id);
 		printf("Coordinateur is notified by signal !\n");
 		id++;

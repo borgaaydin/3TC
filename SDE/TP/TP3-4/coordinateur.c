@@ -27,52 +27,16 @@ void quit(){
 void prioritaire(){
 		int srcPrio, destPrio, idPrio;
 		int pid_feux = pshmem[PID_FEUX];
-		printf("Coordinateur : Priority vehicle is coming in hot. Changing the traffic lights !\n");
+		printf("Coordinateur: Priority vehicle is coming in hot. Changing the traffic lights!\n");
 		kill(pid_feux, SIGUSR2);
-		printf("Coordinateur : Only the cars on the lane of priority are passing.\n");
+		printf("Coordinateur: Only the cars on the lane of priority are passing.\n");
 		srcPrio = pshmem[SRC_PRIO] ;
 		destPrio =pshmem[DEST_PRIO];
 		idPrio = pshmem[ID_PRIO] ;
 		sleep(2);
-		printf("Waiting to send sigusr1 \n");
+		printf("Waiting to send sigusr1...\n");
 		//Lookup for the information about priority vehicle in the shared memory.
-		FIFO* fifo1=NULL;
-		FIFO* fifo2=NULL;
-		FIFO* fifo3=NULL;
-		FIFO* fifo4=NULL;
-		for(;;){
-			FIFO* car=newNode(srcPrio, destPrio, idPrio);
-			switch(car->src){
-				case 1:
-					fifo1=addNode(fifo1, car);
-					while(fifo1!=NULL){
-						printf("\nCar #%d is going from %d to %d", fifo1->id, fifo1->src, fifo1->dest);
-						fifo1=delNode(fifo1);
-					}
-					break;
-				case 2:
-					fifo2=addNode(fifo2, car);
-					while(fifo2!=NULL){
-						printf("\nCar #%d is going from %d to %d", fifo2->id, fifo2->src, fifo2->dest);
-						fifo2=delNode(fifo2);
-					}
-					break;
-				case 3:
-					fifo3=addNode(fifo3, car);
-					while(fifo3!=NULL){
-						printf("\nCar #%d is going from %d to %d", fifo3->id, fifo3->src, fifo3->dest);
-						fifo3=delNode(fifo3);
-					}
-					break;
-				case 4:
-					fifo4=addNode(fifo4, car);
-					while(fifo4!=NULL){
-						printf("\nCar #%d is going from %d to %d", fifo4->id, fifo4->src, fifo4->dest);
-						fifo4=delNode(fifo4);
-					}
-					break;
-			}
-		}
+		printf("Priority vehicle #%d is going from %d to %d\n", idPrio, srcPrio, destPrio);
 		kill(pid_feux, SIGUSR1);
 }
 
@@ -154,21 +118,21 @@ void coordinateur(){
 void priorite(FIFO* fifo1, FIFO* fifo2, int feux){
 	if(fifo1!=0){
 		if((feux==0 && (fifo1->dest==3 || fifo1->dest==2)) || (feux==1 && (fifo1->dest==0 || fifo1->dest==3))){
-				printf("\nCar #%d is going from %d to %d", fifo1->id, fifo1->src, fifo1->dest);
+				printf("Car #%d is going from %d to %d\n", fifo1->id, fifo1->src, fifo1->dest);
 				if(fifo2!=0){
-					printf("\nCar #%d is going from %d to %d", fifo2->id, fifo2->src, fifo2->dest);
+					printf("Car #%d is going from %d to %d\n", fifo2->id, fifo2->src, fifo2->dest);
 				}
 			}
 			else{
 				if(fifo2!=0){
-					printf("\nCar #%d is going from %d to %d", fifo2->id, fifo2->src, fifo2->dest);
+					printf("Car #%d is going from %d to %d\n", fifo2->id, fifo2->src, fifo2->dest);
 				}
-				printf("\nCar #%d is going from %d to %d", fifo1->id, fifo1->src, fifo1->dest);
+				printf("Car #%d is going from %d to %d\n", fifo1->id, fifo1->src, fifo1->dest);
 		}
 	}
 	else{
 		if (fifo2!=NULL){
-			printf("\nCar #%d is going from %d to %d", fifo2->id, fifo2->src, fifo2->dest);
+			printf("Car #%d is going from %d to %d\n", fifo2->id, fifo2->src, fifo2->dest);
 		}
 	}
 }
