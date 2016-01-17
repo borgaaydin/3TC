@@ -29,6 +29,7 @@ void priority(){
     src = pshmem[SRC_PRIO];
     dest = pshmem[DEST_PRIO];
     id = pshmem[ID_PRIO];
+
     printf("Src Prio : %d, Dest Prio : %d, ID Prio : %d \n", src,dest,id);
     for(int k = 0; k<4;k++){
         feuxPrioritaire[k] = 1; // Turn red all the lights
@@ -40,26 +41,30 @@ void priority(){
     for(int k = 0; k<4;k++){
         pshmem[k]=feuxPrioritaire[k];
     }
-    for(;;){
-        signal(SIGUSR1, feux);
-        affichageFeux(feuxPrioritaire,4);
-        sleep(5);
-    }
+    printf("!!! --- priority --- !!!\n");
+
+    affichageFeux(feuxPrioritaire,4);
+    // while(1){
+    //     printf("!!! priority !!!\n");
+    //     affichageFeux(feuxPrioritaire,4);
+    //     printf("!!! priority !!!\n");
+    //     sleep(5);
+    // }
 }
 
 const char * stringConvert(int indice) {
     switch(indice) {
     	case 0 :
-    		return "NORTH";
+    		return "NORTH (1)";
     		break;
     	case 1 :
-    		return "EAST";
+    		return "EAST (2)";
     		break;
     	case 2 :
-    		return "SOUTH";
+    		return "SOUTH (3)";
     		break;
     	case 3 :
-    		return "WEST";
+    		return "WEST (4)";
     		break;
     }
 }
@@ -79,9 +84,9 @@ void affichageFeux(int tab[], int size){
 void feux(){
 	int feux[4] = {};
 	int counter = 0;
+
 	while(1){
-    signal(SIGUSR2, priority);
-		if(counter%2==0){
+  		if(counter%2==0){
 			feux[0] = 0;
 			feux[1] = 1;
 			feux[2] = 0;
@@ -110,6 +115,10 @@ void feux(){
 int main(){
   signal(SIGQUIT, quit);
   signal(SIGINT, quit);
+
+  signal(SIGUSR2, priority);
+  signal(SIGUSR1, feux);
+
 
   key_t cle_shmem = KEY_SHMEM;
   // Attachement à la shmem

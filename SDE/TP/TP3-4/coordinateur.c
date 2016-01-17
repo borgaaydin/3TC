@@ -33,11 +33,12 @@ void prioritaire(){
 		srcPrio = pshmem[SRC_PRIO] ;
 		destPrio =pshmem[DEST_PRIO];
 		idPrio = pshmem[ID_PRIO] ;
-		sleep(2);
-		printf("Waiting to send sigusr1...\n");
-		//Lookup for the information about priority vehicle in the shared memory.
+		sleep(5);
+		printf("Waiting to send sigusr1.\n");
 		printf("Priority vehicle #%d is going from %d to %d\n", idPrio, srcPrio, destPrio);
 		kill(pid_feux, SIGUSR1);
+		printf("SIGUSR1 is sent to FEUX.\n");
+		printf("priority is finished...\n");
 }
 
 void coordinateur(){

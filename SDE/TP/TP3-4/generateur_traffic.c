@@ -43,11 +43,12 @@ generateur_traffic(){
 
 		while(source==dest) dest = ((rand()%4)+1);
 
-		printf("timer: %d, source :%d, dest :%d, id :%d\n", timer,source,dest,identifiant);
+
 		message.src=source;
 		message.dest=dest;
 		message.id=identifiant;
 		msgsnd(id_mailbox, &message, sizeof(MSG), 0);
+		printf("timer: %d, source :%d, dest :%d, id :%d\n", timer,source,dest,identifiant);
 		sleep(timer);
 		identifiant++;
 		indice++;
