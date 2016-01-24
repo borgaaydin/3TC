@@ -11,7 +11,7 @@
 #include "shmem.h"
 #include "semaphore.h"
 
-
+int id_mutex;
 int id_shmem;
 int* pshmem;
 int id_mailbox;
@@ -44,8 +44,10 @@ void prioritaire(){
 void coordinateur(){
 	MSG message;
 	int f1, f2, f3, f4;
+
 	key_t key_mailbox = KEY_MAILBOX;
 	key_t key_shmem = KEY_SHMEM;
+	key_t key_mutex = KEY_MUTEX;
 
 	if((id_mailbox = msgget(key_mailbox, IPC_CREAT|0666)) == -1) {
 		printf("Coordinateur : Impossible de créer la boite aux lettres.\n");
@@ -63,6 +65,17 @@ void coordinateur(){
 		quit();
 	}
 
+	if((id_mutex = create_semaphore(key_mutex)) == -1) {
+		printf("Impossible de créer le mutex.\n");
+		quit();
+	}
+
+	// Initialisation du mutex
+	if(init_semaphore(id_mutex, 1) == -1) {
+		printf("Impossible d'initialiser le mutex.\n");
+		quit();
+	}
+
 	while(pshmem[PID_FEUX] == 0){
 		fprintf(stdout, "Waiting for PID_FEUX ...\n" );
 		sleep(1);
@@ -74,7 +87,9 @@ void coordinateur(){
 	// }
 
 	int pid_feux = pshmem[PID_FEUX];
+	down(id_mutex);
 	pshmem[PID_COORD] = getpid();
+	up(id_mutex);
 
 	fprintf(stdout, "PID feux : %d\n", pid_feux);
 	fprintf(stdout, "PID Coord : %d\n", getpid());
@@ -87,30 +102,34 @@ void coordinateur(){
 	signal(SIGUSR1, prioritaire);
 
 	for(;;){
-		msgrcv(id_mailbox, &message, sizeof(MSG), 1, 0);
-		FIFO* car=newNode(message.src, message.dest, message.id);
-		switch(car->src){
-			case 1:
-				fifo1=addNode(fifo1, car);
-				break;
-			case 2:
-				fifo2=addNode(fifo2, car);
-				break;
-			case 3:
-				fifo3=addNode(fifo3, car);
-				break;
-			case 4:
-				fifo4=addNode(fifo4, car);
-				break;
-		}
-		if(pshmem[0]==0 && pshmem[2]==0){
-			priorite(fifo1, fifo3, 0);
-			fifo1=delNode(fifo1);
-			fifo3=delNode(fifo3);
-		}else{
-			priorite(fifo2, fifo4, 1);
-			fifo2=delNode(fifo2);
-			fifo4=delNode(fifo4);
+		printf("Mailbox is empty, waiting for a new message\n");
+		sleep(1);
+		int msgReturn = msgrcv(id_mailbox, &message, sizeof(MSG), 1, 0);
+		if(msgReturn != -1) {
+			FIFO* car=newNode(message.src, message.dest, message.id);
+			switch(car->src){
+				case 1:
+					fifo1=addNode(fifo1, car);
+					break;
+				case 2:
+					fifo2=addNode(fifo2, car);
+					break;
+				case 3:
+					fifo3=addNode(fifo3, car);
+					break;
+				case 4:
+					fifo4=addNode(fifo4, car);
+					break;
+			}
+			if(pshmem[0]==0 && pshmem[2]==0){
+				priorite(fifo1, fifo3, 0);
+				fifo1=delNode(fifo1);
+				fifo3=delNode(fifo3);
+			}else{
+				priorite(fifo2, fifo4, 1);
+				fifo2=delNode(fifo2);
+				fifo4=delNode(fifo4);
+			}
 		}
 	}
 	//TODO: destroy IPCs

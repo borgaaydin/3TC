@@ -23,12 +23,14 @@ generateur_traffic(){
 	int source = 0;
 	int id_mailbox = -1;
 	key_t key_mailbox= KEY_MAILBOX;
+  key_t key_mutex= KEY_MUTEX;
 	MSG message;
 	message.type=1;
 	int indice=0;
 	srand(time(NULL));
 
 	// IPC Declarations
+
 
 	if((id_mailbox = msgget(key_mailbox, IPC_CREAT|0666)) == -1) {
 		printf("Coordinateur : Impossible de créer la boite aux lettres.\n");
@@ -42,7 +44,6 @@ generateur_traffic(){
 		source = (rand()%4)+1;
 
 		while(source==dest) dest = ((rand()%4)+1);
-
 
 		message.src=source;
 		message.dest=dest;
