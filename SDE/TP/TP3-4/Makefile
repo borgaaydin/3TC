@@ -1,7 +1,7 @@
 CFLAGS = -g -Wall -DDEBUG
 LDLAGS = -g -Wall -DDEBUG
 
-all: coordinateur generateur_traffic feux generateur_traffic_prioritaire fifo
+all: coordinateur generateur_traffic feux generateur_traffic_prioritaire
 
 generateur_traffic.o: generateur_traffic.c
 	gcc ${CFLAGS} -c generateur_traffic.c  -o generateur_traffic.o

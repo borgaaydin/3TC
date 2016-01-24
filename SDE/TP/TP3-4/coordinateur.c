@@ -102,7 +102,7 @@ void coordinateur(){
 	signal(SIGUSR1, prioritaire);
 
 	for(;;){
-		printf("Mailbox is empty, waiting for a new message\n");
+		printf("---+--- Mailbox is empty, waiting for a new message\n");
 		sleep(1);
 		int msgReturn = msgrcv(id_mailbox, &message, sizeof(MSG), 1, 0);
 		if(msgReturn != -1) {
