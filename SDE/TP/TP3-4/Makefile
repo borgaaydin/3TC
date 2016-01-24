@@ -32,3 +32,4 @@ generateur_traffic_prioritaire: generateur_traffic_prioritaire.o
 
 clean:
 	@rm *.o Generateur_traffic Coordinateur Generateur_traffic_priotaire Feux
+	./clean.sh

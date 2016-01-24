@@ -18,5 +18,10 @@ int id_mailbox;
 
 // TESTs
 int main() {
-  
+  fprintf(stdout, "TEST 1 : IPC \n" );
+
+
+  fprintf(stdout, "TEST 2 : FIFO \n" );
+    
+
 }

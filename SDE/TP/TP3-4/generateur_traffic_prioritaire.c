@@ -16,10 +16,14 @@ int* pshmem;
 
 void quit() {
     printf("generateurTrafficPrioritaire : Je meurs.\n");
+
+		down(id_mutex);
 		pshmem[SRC_PRIO] = 0;
 		pshmem[DEST_PRIO] = 0;
 		pshmem[ID_PRIO] = 0;
 		pshmem[PID_PRIO] = 0;
+		up(id_mutex);
+
     remove_shmem(id_shmem);
     exit(0);
 }
@@ -34,20 +38,23 @@ void generateurTrafficPrioritaire(){
 			quit();
 	}
 
-	// Attachement à la shmem
 	if((id_shmem = open_shmem(key_shmem, shmem_size)) == -1) {
 			printf("generateurTrafficPrioritaire : Impossible d'ouvrir la mémoire partagée.\n");
 			quit();
 	}
+
 	if((pshmem = attach_shmem(id_shmem)) == -1) {
 			printf("generateurTrafficPrioritaire : Impossible de s'attacher à la mémoire partagée.\n");
 			quit();
 	}
+
+	down(id_mutex);
 	pshmem[SRC_PRIO] = 0;
 	pshmem[DEST_PRIO] = 0;
 	pshmem[ID_PRIO] = 0;
-
 	pshmem[PID_PRIO]=getpid();
+	up(id_mutex);
+
 	int pid_coord = pshmem[PID_COORD];
 	printf("PID generPrio : %d\n", getpid());
 	printf("PID Coord : %d\n", pid_coord);

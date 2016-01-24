@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
-
-//#include <time.h>
-
 #include <sys/types.h>
 #include <sys/ipc.h>
 
@@ -13,12 +10,15 @@
 
 #include "feux.h"
 
+int id_mutex;
 int id_shmem;
 int* pshmem;
 
 void quit() {
     printf("Feux : Je meurs.\n");
+    down(id_mutex);
     pshmem[PID_FEUX] = 0;
+    up(id_mutex);
     remove_shmem(id_shmem);
     exit(0);
 }
@@ -31,6 +31,8 @@ void priority(){
     id = pshmem[ID_PRIO];
 
     printf("Src Prio : %d, Dest Prio : %d, ID Prio : %d \n", src,dest,id);
+
+    down(id_mutex);
     for(int k = 0; k<4;k++){
         feuxPrioritaire[k] = 1; // Turn red all the lights
     }
@@ -41,15 +43,11 @@ void priority(){
     for(int k = 0; k<4;k++){
         pshmem[k]=feuxPrioritaire[k];
     }
+    up(id_mutex);
+
     printf("!!! --- priority --- !!!\n");
 
     affichageFeux(feuxPrioritaire,4);
-    // while(1){
-    //     printf("!!! priority !!!\n");
-    //     affichageFeux(feuxPrioritaire,4);
-    //     printf("!!! priority !!!\n");
-    //     sleep(5);
-    // }
 }
 
 const char * stringConvert(int indice) {
@@ -87,24 +85,30 @@ void feux(){
 
 	while(1){
   		if(counter%2==0){
+      down(id_mutex);
 			feux[0] = 0;
 			feux[1] = 1;
 			feux[2] = 0;
 			feux[3] = 1;
+
       for(int k = 0; k<4;k++){
         pshmem[k]=feux[k];
       }
+      up(id_mutex);
 			affichageFeux(feux,4);
 		}
 		else {
+      down(id_mutex);
 			feux[0] = 1;
 			feux[1] = 0;
 			feux[2] = 1;
 			feux[3] = 0;
 
+
       for(int k = 0; k<4;k++){
         pshmem[k]=feux[k];
       }
+      up(id_mutex);
 			affichageFeux(feux,4);
 		}
 		counter++;
@@ -119,9 +123,14 @@ int main(){
   signal(SIGUSR2, priority);
   signal(SIGUSR1, feux);
 
-
   key_t cle_shmem = KEY_SHMEM;
-  // Attachement à la shmem
+  key_t key_mutex = KEY_MUTEX;
+
+  if((id_mutex = open_semaphore(key_mutex)) == -1) {
+			printf("Impossible d'ouvrir le mutex.\n");
+			quit();
+	}
+
   if((id_shmem = open_shmem(cle_shmem, shmem_size)) == -1) {
       printf("Feux : Impossible d'ouvrir la mémoire partagée.\n");
       quit();
@@ -131,7 +140,10 @@ int main(){
       quit();
   }
   printf("PID Feux : %d\n", getpid());
+
+  down(id_mutex);
   pshmem[PID_FEUX]=getpid();
+  up(id_mutex);
 
 	feux();
 }

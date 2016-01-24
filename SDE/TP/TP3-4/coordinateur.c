@@ -16,9 +16,11 @@ int id_shmem;
 int* pshmem;
 int id_mailbox;
 
-
 void quit(){
+	down(id_mutex);
 	pshmem[PID_COORD] = 0;
+	up(id_mutex);
+	
   msgctl(id_mailbox, IPC_RMID, NULL);
 	remove_shmem(id_shmem);
 	exit(0);
@@ -30,9 +32,13 @@ void prioritaire(){
 		printf("Coordinateur: Priority vehicle is coming in hot. Changing the traffic lights!\n");
 		kill(pid_feux, SIGUSR2);
 		printf("Coordinateur: Only the cars on the lane of priority are passing.\n");
+
+		down(id_mutex);
 		srcPrio = pshmem[SRC_PRIO] ;
 		destPrio =pshmem[DEST_PRIO];
 		idPrio = pshmem[ID_PRIO] ;
+		up(id_mutex);
+
 		sleep(5);
 		printf("Waiting to send sigusr1.\n");
 		printf("Priority vehicle #%d is going from %d to %d\n", idPrio, srcPrio, destPrio);
@@ -59,7 +65,6 @@ void coordinateur(){
 		quit();
 	}
 
-	// Attachement à la shmem
 	if((pshmem = attach_shmem(id_shmem)) == -1) {
 		printf("Coordinateur : Impossible de s'attacher à la mémoire partagée.\n");
 		quit();
@@ -70,7 +75,6 @@ void coordinateur(){
 		quit();
 	}
 
-	// Initialisation du mutex
 	if(init_semaphore(id_mutex, 1) == -1) {
 		printf("Impossible d'initialiser le mutex.\n");
 		quit();
@@ -81,12 +85,8 @@ void coordinateur(){
 		sleep(1);
 	}
 
-	// while(msgrcv(id_mailbox, &message, sizeof(MSG), 1, 0) == -1){
-	// 	fprintf(stdout, "Waiting for MAILBOX ! ...\n" );
-	// 	sleep(1);
-	// }
-
 	int pid_feux = pshmem[PID_FEUX];
+
 	down(id_mutex);
 	pshmem[PID_COORD] = getpid();
 	up(id_mutex);
@@ -132,7 +132,6 @@ void coordinateur(){
 			}
 		}
 	}
-	//TODO: destroy IPCs
 }
 
 void priorite(FIFO* fifo1, FIFO* fifo2, int feux){
