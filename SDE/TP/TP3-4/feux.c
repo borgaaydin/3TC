@@ -36,7 +36,7 @@ void priority(){
     for(int k = 0; k<4;k++){
         feuxPrioritaire[k] = 1; // Turn red all the lights
     }
-    feuxPrioritaire[src] = 0; // Turn green the priority lane
+    feuxPrioritaire[src-1] = 0; // Turn green the priority lane
     affichageFeux(feuxPrioritaire,4);
 
     //Put the state of lights into the Shared Memory
@@ -64,6 +64,9 @@ const char * stringConvert(int indice) {
     	case 3 :
     		return "WEST (4)";
     		break;
+      default :
+        return "Error !";
+        break;
     }
 }
 
@@ -126,16 +129,16 @@ int main(){
   key_t cle_shmem = KEY_SHMEM;
   key_t key_mutex = KEY_MUTEX;
 
-  if((id_mutex = open_semaphore(key_mutex)) == -1) {
+  if((int)(id_mutex = open_semaphore(key_mutex)) == -1) {
 			printf("Impossible d'ouvrir le mutex.\n");
 			quit();
 	}
 
-  if((id_shmem = open_shmem(cle_shmem, shmem_size)) == -1) {
+  if((int)(id_shmem = open_shmem(cle_shmem, shmem_size)) == -1) {
       printf("Feux : Impossible d'ouvrir la mémoire partagée.\n");
       quit();
   }
-  if((pshmem = attach_shmem(id_shmem)) == -1) {
+  if((int)(pshmem = attach_shmem(id_shmem)) == -1) {
       printf("Feux : Impossible de s'attacher à la mémoire partagée.\n");
       quit();
   }

@@ -1,10 +1,11 @@
-	#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 
 #include <sys/types.h>
 #include <sys/ipc.h>
+#include <signal.h>
 
 #include "variables.h"
 #include "shmem.h"
@@ -38,12 +39,12 @@ void generateurTrafficPrioritaire(){
 			quit();
 	}
 
-	if((id_shmem = open_shmem(key_shmem, shmem_size)) == -1) {
+	if((int)(id_shmem = open_shmem(key_shmem, shmem_size)) == -1) {
 			printf("generateurTrafficPrioritaire : Impossible d'ouvrir la mémoire partagée.\n");
 			quit();
 	}
 
-	if((pshmem = attach_shmem(id_shmem)) == -1) {
+	if((int)(pshmem = attach_shmem(id_shmem)) == -1) {
 			printf("generateurTrafficPrioritaire : Impossible de s'attacher à la mémoire partagée.\n");
 			quit();
 	}

@@ -28,4 +28,7 @@
 #define PID_PRIO 8
 #define PID_COORD 9
 
+#include <stdlib.h>
+#include <unistd.h>
+
 int shmem_size = sizeof(int)*10;

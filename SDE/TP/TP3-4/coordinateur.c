@@ -20,7 +20,7 @@ void quit(){
 	down(id_mutex);
 	pshmem[PID_COORD] = 0;
 	up(id_mutex);
-	
+
   msgctl(id_mailbox, IPC_RMID, NULL);
 	remove_shmem(id_shmem);
 	exit(0);
@@ -49,28 +49,27 @@ void prioritaire(){
 
 void coordinateur(){
 	MSG message;
-	int f1, f2, f3, f4;
 
 	key_t key_mailbox = KEY_MAILBOX;
 	key_t key_shmem = KEY_SHMEM;
 	key_t key_mutex = KEY_MUTEX;
 
-	if((id_mailbox = msgget(key_mailbox, IPC_CREAT|0666)) == -1) {
+	if((int)(id_mailbox = msgget(key_mailbox, IPC_CREAT|0666)) == -1) {
 		printf("Coordinateur : Impossible de créer la boite aux lettres.\n");
 		quit();
 	}
 
-	if((id_shmem = create_shmem(key_shmem, shmem_size)) == -1) {
+	if((int)(id_shmem = create_shmem(key_shmem, shmem_size)) == -1) {
 		printf("Coordinateur : Impossible de créer la mémoire partagée.\n");
 		quit();
 	}
 
-	if((pshmem = attach_shmem(id_shmem)) == -1) {
+	if((int)(pshmem = attach_shmem(id_shmem)) == -1) {
 		printf("Coordinateur : Impossible de s'attacher à la mémoire partagée.\n");
 		quit();
 	}
 
-	if((id_mutex = create_semaphore(key_mutex)) == -1) {
+	if((int)(id_mutex = create_semaphore(key_mutex)) == -1) {
 		printf("Impossible de créer le mutex.\n");
 		quit();
 	}

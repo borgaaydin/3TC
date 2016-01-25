@@ -33,11 +33,3 @@ FIFO* delNode(FIFO* root){
 	}
 	return temp;
 }
-
-FIFO* emptyFIFO(FIFO* root){
-	FIFO* temp;
-	while(temp!=NULL){
-		temp=delNode(root);
-	}
-	return(temp);
-}

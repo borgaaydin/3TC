@@ -25,7 +25,6 @@ generateur_traffic(){
 	int indice=0;
 
 	key_t key_mailbox= KEY_MAILBOX;
-  key_t key_mutex= KEY_MUTEX;
 
 	MSG message;
 	message.type=1;
