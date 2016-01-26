@@ -1,0 +1,26 @@
+README
+---
+AYDIN Borga
+CHWAT Antoine
+---
+Project SDE TP_IPC
+
+Commands :
+- make
+Compile all the files
+  Coordinateur
+  Feux
+  Generateur_traffic
+  Generateur_traffic_pritoritaire
+
+- make clean
+  Cleanup all the intermediate files
+  Cleanup all the IPCs
+
+Running :
+After the compilation
+Start all the processes in this order on different terminals:
+ ./Coordinateur
+ ./Feux
+ ./Generateur_traffic
+ ./Generateur_traffic_pritoritaire

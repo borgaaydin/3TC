@@ -33,15 +33,17 @@ void priority(){
     printf("Src Prio : %d, Dest Prio : %d, ID Prio : %d \n", src,dest,id);
 
     down(id_mutex);
-    for(int k = 0; k<4;k++){
+    int k;
+    for(k = 0; k<4;k++){
         feuxPrioritaire[k] = 1; // Turn red all the lights
     }
     feuxPrioritaire[src-1] = 0; // Turn green the priority lane
     affichageFeux(feuxPrioritaire,4);
 
     //Put the state of lights into the Shared Memory
-    for(int k = 0; k<4;k++){
-        pshmem[k]=feuxPrioritaire[k];
+    int j;
+    for(j = 0; j<4;j++){
+        pshmem[j]=feuxPrioritaire[j];
     }
     up(id_mutex);
 
@@ -71,7 +73,8 @@ const char * stringConvert(int indice) {
 }
 
 void affichageFeux(int tab[], int size){
-	for(int i=0;i<size;i++){
+  int i;
+  for(i=0;i<size;i++){
 		if(tab[i]==0){
 			printf("%s : - GREEN -\n", stringConvert(i));
 		}
@@ -93,8 +96,8 @@ void feux(){
 			feux[1] = 1;
 			feux[2] = 0;
 			feux[3] = 1;
-
-      for(int k = 0; k<4;k++){
+      int k;
+      for(k = 0; k<4;k++){
         pshmem[k]=feux[k];
       }
       up(id_mutex);
@@ -107,9 +110,9 @@ void feux(){
 			feux[2] = 1;
 			feux[3] = 0;
 
-
-      for(int k = 0; k<4;k++){
-        pshmem[k]=feux[k];
+      int m;
+      for(m = 0; m<4;m++){
+        pshmem[m]=feux[m];
       }
       up(id_mutex);
 			affichageFeux(feux,4);

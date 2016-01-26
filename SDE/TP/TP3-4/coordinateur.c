@@ -23,6 +23,8 @@ void quit(){
 
   msgctl(id_mailbox, IPC_RMID, NULL);
 	remove_shmem(id_shmem);
+	remove_semaphore(id_mutex);
+
 	exit(0);
 }
 
@@ -156,6 +158,8 @@ void priorite(FIFO* fifo1, FIFO* fifo2, int feux){
 }
 
 int main(){
+	signal(SIGINT, quit);
+
 	coordinateur();
 	return 0;
 }
