@@ -1,4 +1,3 @@
-/************* UDP SERVER CODE *******************/
 
 #include <stdio.h>
 #include <sys/socket.h>
@@ -47,72 +46,10 @@ int main(){
       sendto(udpSocket,bufferOut,6*sizeof(int),0,(struct sockaddr *)&serverStorage,addr_size);
     }
 
-    // removeSpaces(bufferIn);
-
-    // if(!strncmp("SYN",bufferIn,3)){
-    //   printf("Verified: SYN \n");
-
-    //   int seq_number = extractSeqNumber(bufferIn);
-    //   printf("Extracted Sequence Number: %d\n", seq_number);
-
-    //   for(i=0;i<3;i++)
-    //     bufferOut[i] = ACK[i];
-    //   bufferOut[3]='_';
-    //   char seq[7];
-    //   sprintf(seq, "%d", seq_number);
-    //   for(i=4;i<10;i++)
-    //     bufferOut[i] = seq[i-4];
-
-    //   nBytes = strlen(bufferOut) + 1;
-    //   /*Send uppercase message back to client, using serverStorage as the address*/
-    //   sendto(udpSocket,bufferOut,nBytes,0,(struct sockaddr *)&serverStorage,addr_size);
-    //   printf("Sent: %s \n",bufferOut);
-
-    //   seq_number++;
-
-    //   for(i=0;i<3;i++)
-    //     bufferOut[i] = SYN[i];
-    //   sprintf(seq, "%d", seq_number);
-    //   for(i=4;i<10;i++)
-    //     bufferOut[i] = seq[i-4];
-
-    //   nBytes = strlen(bufferOut) + 1;
-
-    //   sendto(udpSocket,bufferOut,nBytes,0,(struct sockaddr *)&serverStorage,addr_size);
-    //   printf("Sent: %s \n",bufferOut);
-    // }
-
-
-
-    // nBytes = recvfrom(udpSocket,bufferIn,1024,0,(struct sockaddr *)&serverStorage, &addr_size);
-    // printf("Received: %s \n",bufferIn);
-
-    // removeSpaces(bufferIn);
-
-    // if(strncmp("ACK",bufferIn,3)){
-    //   printf("Verified: ACK \n");
-    //   printf("START FILE TRANSFER ! \n");
-
-    //   recvfrom(udpSocket,bufferIn,1024,0,(struct sockaddr *)&serverStorage, &addr_size);
-
-    //   // FILE *fp = fopen(bufferIn, "r");
-    //   // if (fp == NULL) {
-    //   //     printf("File does not exist \n");
-    //   //     return 1;
-    //   // }
-    //   //
-    //   // while (1) {
-    //   //     bytes_read = read(fp, content, sizeof(content));
-    //   //     if (bytes_read == 0)
-    //   //         break;
-    //   //     sendto(sd, content, sizeof(content), 0, (struct sockaddr*)&cliaddr, len);
-    //   //     bzero(content, 200);
-    //   // }
-
-    //   sleep(100);
-    // }
-
-
   }
+
+  /* Reset all the buffers */
+  memset(&bufferOut[0], 0, sizeof(bufferOut));
+  memset(&bufferIn[0], 0, sizeof(bufferIn));
   return 0;
 }
