@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
+<line x1="100.000" y1="100.000" x2="200.000" y2="100.000" stroke="red" />
+<line x1="200.000" y1="100.000" x2="119.098" y2="158.779" stroke="red" />
+<line x1="119.098" y1="158.779" x2="150.000" y2="63.673" stroke="red" />
+<line x1="150.000" y1="63.673" x2="180.902" y2="158.779" stroke="red" />
+<line x1="180.902" y1="158.779" x2="100.000" y2="100.000" stroke="red" />
+</svg>
