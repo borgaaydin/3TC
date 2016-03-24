@@ -32,16 +32,20 @@ int main(){
   addr_size = sizeof serverAddr;
 
   while(1){
-    createMessage(1,serverAddr.sin_port,100,1,0,bufferOut);
-
+    //createMessage(int type,int src_port, int dest_port, int seq_number, int ack_number,Message* mes){
+    createMessage(SYN,serverAddr.sin_port,100,1,0,bufferOut);
     sendto(clientSocket,bufferOut,6*sizeof(int),0,(struct sockaddr *)&serverAddr,addr_size);
 
     recvfrom(clientSocket,bufferIn,1024,0,NULL, NULL);
-
     printMessage(bufferIn);
 
     int dataFlowPort = bufferIn->dest_port;
     printf("Destination Port for transfer : %d\n", dataFlowPort);
+
+    if(bufferIn->type==SYNACK){
+      createMessage(ACK,serverAddr.sin_port,dataFlowPort,bufferIn->seq_number,bufferIn->ack_number+1,bufferOut);
+      sendto(clientSocket,bufferOut,6*sizeof(int),0,(struct sockaddr *)&serverAddr,addr_size);
+    }
 
     sleep(100);
   }

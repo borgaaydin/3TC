@@ -38,7 +38,6 @@ int main(){
     /* Try to receive any incoming UDP datagram. Address and port of
       requesting client will be stored on serverStorage variable */
     recvfrom(udpSocket,bufferIn,6*sizeof(int),0,(struct sockaddr *)&serverStorage, &addr_size);
-    
     printMessage(bufferIn);
 
     if(bufferIn->type==SYN){
@@ -46,6 +45,10 @@ int main(){
       sendto(udpSocket,bufferOut,6*sizeof(int),0,(struct sockaddr *)&serverStorage,addr_size);
     }
 
+    recvfrom(udpSocket,bufferIn,6*sizeof(int),0,(struct sockaddr *)&serverStorage, &addr_size);
+    printMessage(bufferIn);
+
+    sleep(100);
   }
 
   /* Reset all the buffers */
